@@ -64,7 +64,7 @@ jobs:
     env:
       JOB_KNOWN_FAILURES: "3.13 3.16 3.19 4.2"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
       - name: Compile against all available kernel header versions
         shell: bash
@@ -190,7 +190,7 @@ jobs:
           fi
       - name: Publish state
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.name }}
           path: buildstate.txt
@@ -201,13 +201,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout WIKI repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: v4l2loopback/v4l2loopback.wiki.git
           ref: master
           token: ${{ secrets.PUSH2REPO_TOKEN }}
       - name: Get status artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
       - name: Create badge
         id: createbadge
         shell: bash
