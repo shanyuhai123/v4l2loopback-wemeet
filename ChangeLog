@@ -1,3 +1,20 @@
+v4l2loopback (0.15.4) unstable; urgency=medium
+
+  [ IOhannes m zmölnig ]
+  * [ci] try again to run kmod-compile on fedora>=41
+  * Make sure that user-provided max_buffers does not exceed MAX_BUFFERS
+    Thanks: Team 42-b3yond-6ug <https://b3yond.org/>
+    Thanks: snpshtwrx & Johnny Nguyen
+
+  [ Jakub Acs ]
+  * Trim req_count early
+
+  [ stephematician ]
+  * Use full ordering for buffer mapped flag
+  * Lock image during memcpy access
+
+ -- IOhannes m zmölnig (Debian/GNU) <umlaeute@debian.org>  Wed, 24 Jun 2026 15:45:41 +0200
+
 v4l2loopback (0.15.3) unstable; urgency=medium
 
   [ IOhannes m zmölnig ]
