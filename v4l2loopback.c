@@ -1860,6 +1860,13 @@ static int vidioc_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
 		return -EINVAL;
 	bufd = &dev->buffers[index];
 
+	/* Some V4L2 clients leave v4l2_buffer.memory at zero for QBUF/DQBUF
+	 * after successfully negotiating MMAP buffers through REQBUFS.  The
+	 * memory type is already fixed by this opener's I/O method, so accept
+	 * the unspecified value as MMAP without relaxing any other type. */
+	if (buf->memory == 0 && opener->io_method == V4L2L_IO_MMAP)
+		buf->memory = V4L2_MEMORY_MMAP;
+
 	switch (buf->memory) {
 	case V4L2_MEMORY_MMAP:
 		if (!(bufd->buffer.flags & V4L2_BUF_FLAG_MAPPED))
@@ -2007,6 +2014,8 @@ static int vidioc_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
 	int index;
 	struct v4l2l_buffer *bufd;
 
+	if (buf->memory == 0 && opener->io_method == V4L2L_IO_MMAP)
+		buf->memory = V4L2_MEMORY_MMAP;
 	if (buf->memory != V4L2_MEMORY_MMAP)
 		return -EINVAL;
 	if (opener->format_token & V4L2L_TOKEN_TIMEOUT) {
